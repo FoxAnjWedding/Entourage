@@ -27,8 +27,9 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 #invitation-app{opacity:0;transform:translateY(20px);transition:opacity 1s ease 0.3s, transform 1s ease 0.3s;pointer-events:none;max-width:800px;margin:auto;padding:20px 16px 60px}
 #invitation-app.visible{opacity:1;transform:translateY(0);pointer-events:auto}
 
-/* Back Button Bar */
+/* Navigation Bar Styling */
 .top-nav{margin-bottom:15px;display:flex;justify-content:flex-start}
+.bottom-nav{margin-top:25px;display:flex;justify-content:center}
 .btn-back{background:none;border:1px solid var(--gold);color:var(--gold);padding:8px 16px;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:2px;text-decoration:none;display:inline-block;transition:all 0.2s ease}
 .btn-back:hover{background:var(--gold);color:#fff}
 
@@ -53,6 +54,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 
 <!-- MAIN INVITATION CONTENT CONTAINING PAGE IMAGES -->
 <div id="invitation-app">
+  <!-- Top Navigation Back Button -->
   <div class="top-nav">
     <a href="#" class="btn-back" onclick="history.back(); return false;">← Back to Portal</a>
   </div>
@@ -62,6 +64,11 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
     <img src="page_2.jpg" alt="Wedding Entourage - Page 2" class="invitation-page">
     <img src="page_3.jpg" alt="Wedding Entourage - Page 3" class="invitation-page">
     <img src="page_4.jpg" alt="Wedding Details - Page 4" class="invitation-page">
+  </div>
+
+  <!-- Bottom Navigation Back Button -->
+  <div class="bottom-nav">
+    <a href="#" class="btn-back" onclick="history.back(); return false;">← Back to Portal</a>
   </div>
 </div>
 

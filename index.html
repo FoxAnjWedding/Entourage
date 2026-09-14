@@ -129,14 +129,25 @@ function openEnvelope() {
 
 function goBackToPortal(event) {
   event.preventDefault();
-  // If user came from another page in the same session, go back safely
+  
+  // Check if we can navigate back in browser history
   if (window.history.length > 1) {
+    // Set a flag in session storage so the destination page knows to scroll to bottom upon return
+    sessionStorage.setItem('scrollToBottom', 'true');
     window.history.back();
   } else {
     // Fallback if opened directly in a fresh tab
-    window.location.href = "https://aya-bloom.my.canva.site/fox-anj/page-2";
+    window.location.href = "https://aya-bloom.my.canva.site/fox-anj/page-2#bottom";
   }
 }
+
+// Automatically scroll to the bottom if returning via history back
+window.addEventListener('pageshow', function() {
+  if (sessionStorage.getItem('scrollToBottom') === 'true') {
+    sessionStorage.removeItem('scrollToBottom');
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+});
 </script>
 
 </body>

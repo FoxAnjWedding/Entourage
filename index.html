@@ -10,34 +10,34 @@
 body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
 
 /* Envelope Screen Overlay */
-#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#2b2f2a;background-image:radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.9s ease;padding:20px;text-align:center}
+#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#2b2f2a;background-image:radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.9s ease;padding:20px;text-align:center}
 #envelope-screen.fade-out{opacity:0;pointer-events:none}
 
-.env-title{color:#fff;font-size:26px;font-style:italic;letter-spacing:1px;margin-bottom:24px;font-weight:normal;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
+.env-title{color:#fff;font-size:28px;font-style:italic;letter-spacing:1px;margin-bottom:28px;font-weight:normal;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
 
-/* Realistic Envelope Design */
-.envelope-wrapper{position:relative;width:360px;height:240px;cursor:pointer;filter:drop-shadow(0 20px 30px rgba(0,0,0,0.4));transition:transform 0.4s ease}
-.envelope-wrapper:hover{transform:translateY(-4px)}
+/* Larger Realistic Envelope Design */
+.envelope-wrapper{position:relative;width:440px;height:300px;cursor:pointer;filter:drop-shadow(0 25px 35px rgba(0,0,0,0.5));transition:transform 0.4s ease}
+.envelope-wrapper:hover{transform:translateY(-5px)}
 
-.envelope-body{position:absolute;width:100%;height:100%;background:#fbf9f4;background-image:radial-gradient(circle at 50% 50%, #fffdfa 0%, #f3eee3 100%);border-radius:3px;overflow:hidden;box-shadow:inset 0 0 15px rgba(0,0,0,0.05)}
+.envelope-body{position:absolute;width:100%;height:100%;background:#fbf9f4;background-image:radial-gradient(circle at 50% 50%, #fffdfa 0%, #f2ede2 100%);border-radius:4px;overflow:hidden;border:1px solid #dcd4c3}
 
-/* Envelope Creases / Flaps */
-.flap-left{position:absolute;top:0;left:0;width:0;height:0;border-top:120px solid transparent;border-bottom:120px solid transparent;border-left:180px solid rgba(0,0,0,0.04)}
-.flap-right{position:absolute;top:0;right:0;width:0;height:0;border-top:120px solid transparent;border-bottom:120px solid transparent;border-right:180px solid rgba(0,0,0,0.04)}
-.flap-bottom{position:absolute;bottom:0;left:0;width:0;height:0;border-left:180px solid transparent;border-right:180px solid transparent;border-bottom:120px solid rgba(0,0,0,0.07)}
+/* Envelope Creases / Flaps with clear defining lines */
+.flap-left{position:absolute;top:0;left:0;width:0;height:0;border-top:150px solid transparent;border-bottom:150px solid transparent;border-left:220px solid rgba(60,50,40,0.08);filter:drop-shadow(1px 0 0 rgba(60,50,40,0.12))}
+.flap-right{position:absolute;top:0;right:0;width:0;height:0;border-top:150px solid transparent;border-bottom:150px solid transparent;border-right:220px solid rgba(60,50,40,0.08);filter:drop-shadow(-1px 0 0 rgba(60,50,40,0.12))}
+.flap-bottom{position:absolute;bottom:0;left:0;width:0;height:0;border-left:220px solid transparent;border-right:220px solid transparent;border-bottom:150px solid rgba(60,50,40,0.1);filter:drop-shadow(0 -1px 0 rgba(60,50,40,0.15))}
 
-/* Top Flap that opens */
-.flap-top{position:absolute;top:0;left:0;width:0;height:0;border-left:180px solid transparent;border-right:180px solid transparent;border-top:115px solid #ece4d2;transform-origin:top;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);z-index:3}
+/* Top Flap that opens with clear outline crease */
+.flap-top{position:absolute;top:0;left:0;width:0;height:0;border-left:220px solid transparent;border-right:220px solid transparent;border-top:145px solid #eae2d0;transform-origin:top;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);z-index:3;filter:drop-shadow(0 2px 2px rgba(60,50,40,0.15))}
 .envelope-wrapper.opening .flap-top{transform:rotateX(180deg);z-index:0}
 
-/* Realistic Golden Wax Seal with logo.jpg */
-.wax-seal{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);width:68px;height:68px;background:radial-gradient(circle at 35% 35%, #f4d06f 0%, #d4af37 60%, #997a15 100%);border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.3), inset 0 2px 3px rgba(255,255,255,0.6), inset 0 -2px 3px rgba(0,0,0,0.4);display:flex;justify-content:center;align-items:center;z-index:4;border:2px solid #b89728;transition:transform 0.3s ease, opacity 0.3s ease;overflow:hidden}
+/* Clearer Golden Wax Seal with logo.jpg */
+.wax-seal{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);width:78px;height:78px;background:radial-gradient(circle at 35% 35%, #f6d67b 0%, #d4af37 65%, #8c6d12 100%);border-radius:50%;box-shadow:0 5px 15px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.7), inset 0 -3px 4px rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;z-index:4;border:2px solid #b39023;transition:transform 0.3s ease, opacity 0.3s ease;overflow:hidden}
 .envelope-wrapper.opening .wax-seal{transform:translateX(-50%) scale(1.2);opacity:0}
 
-/* Seal logo image styling */
-.wax-seal img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;opacity:0.9}
+/* Seal logo image styling optimized for clarity */
+.wax-seal img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;filter:contrast(1.1);opacity:0.95}
 
-.env-instruction{color:#e2d9c5;font-size:12px;letter-spacing:3px;text-transform:uppercase;margin-top:28px;animation:pulse 2s infinite;text-shadow:0 1px 2px rgba(0,0,0,0.5)}
+.env-instruction{color:#e2d9c5;font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:32px;animation:pulse 2s infinite;text-shadow:0 1px 2px rgba(0,0,0,0.5)}
 
 @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
 

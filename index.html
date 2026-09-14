@@ -84,7 +84,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 <div id="invitation-app">
   <!-- Top Navigation Back Button -->
   <div class="top-nav">
-    <a href="#" class="btn-back" onclick="history.back(); return false;">← Back to Portal</a>
+    <a href="https://aya-bloom.my.canva.site/fox-anj/page-2" class="btn-back" onclick="goBackToPortal(event)">← Back to Portal</a>
   </div>
 
   <div class="image-scroll-container">
@@ -96,7 +96,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 
   <!-- Bottom Navigation Back Button -->
   <div class="bottom-nav">
-    <a href="#" class="btn-back" onclick="history.back(); return false;">← Back to Portal</a>
+    <a href="https://aya-bloom.my.canva.site/fox-anj/page-2" class="btn-back" onclick="goBackToPortal(event)">← Back to Portal</a>
   </div>
 </div>
 
@@ -125,6 +125,17 @@ function openEnvelope() {
   setTimeout(() => {
     screen.style.display = "none";
   }, 1300);
+}
+
+function goBackToPortal(event) {
+  event.preventDefault();
+  // If user came from another page in the same session, go back safely
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    // Fallback if opened directly in a fresh tab
+    window.location.href = "https://aya-bloom.my.canva.site/fox-anj/page-2";
+  }
 }
 </script>
 

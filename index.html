@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reggie & Angelika — Wedding Invitation & Entourage</title>
+<style>
+:root{--cream:#f8f4ec;--paper:#fffdf8;--ink:#3f4037;--sage:#7d8a70;--gold:#b79b63;--line:#ded8ca;--error:#9b4d42}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
+.wrap{max-width:800px;margin:auto;padding:20px 16px 60px;position:relative}
+
+/* Back Button Bar */
+.top-nav{margin-bottom:15px;display:flex;justify-content:flex-start}
+.btn-back{background:none;border:1px solid var(--gold);color:var(--gold);padding:8px 16px;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:2px;text-decoration:none;display:inline-block;transition:all 0.2s ease}
+.btn-back:hover{background:var(--gold);color:#fff}
+
+/* Envelope Screen Overlay */
+#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:var(--cream);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.8s ease, transform 0.8s ease;cursor:pointer;padding:20px;text-align:center}
+#envelope-screen.fade-out{opacity:0;transform:scale(1.05);pointer-events:none}
+
+.envelope{width:320px;height:220px;background:#f1eee5;border:1px solid var(--line);position:relative;box-shadow:0 15px 35px rgba(0,0,0,0.08);display:flex;justify-content:center;align-items:center;border-radius:4px;transition:transform 0.3s ease}
+.envelope:hover{transform:translateY(-3px)}
+.envelope-flap{position:absolute;top:0;left:0;width:0;height:0;border-left:160px solid transparent;border-right:160px solid transparent;border-top:110px solid #e4decc;transform-origin:top}
+
+/* Yellow Wax Seal */
+.wax-seal{width:64px;height:64px;background:radial-gradient(circle, #dfbc6d 0%, #b79b63 70%, #967c46 100%);border-radius:50%;box-shadow:0 4px 10px rgba(0,0,0,0.2);display:flex;justify-content:center;align-items:center;z-index:2;color:#fffdf8;font-family:Georgia,serif;font-weight:bold;font-size:20px;border:2px dashed rgba(255,255,255,0.4);position:relative}
+.env-text{margin-top:24px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);animation:pulse 2s infinite}
+
+@keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
+
+/* Main Scroll Content Container */
+#invitation-app{opacity:0;transform:translateY(20px);transition:opacity 1s ease 0.3s, transform 1s ease 0.3s;pointer-events:none}
+#invitation-app.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+
+.card{background:var(--paper);border:1px solid var(--line);box-shadow:0 10px 40px #0000000c;padding:40px 30px;border-radius:2px;margin-bottom:24px;text-align:center}
+.monogram{font-size:24px;color:var(--gold);margin-bottom:10px;font-style:italic}
+.kicker{letter-spacing:4px;text-transform:uppercase;font-size:11px;color:var(--gold);margin-bottom:12px}
+h1{font-size:36px;font-weight:400;margin:10px 0;color:var(--ink);font-family:Georgia,serif}
+h2{font-size:22px;font-weight:400;margin:30px 0 15px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:8px}
+h3{font-size:15px;font-weight:600;margin:18px 0 6px;letter-spacing:1px;text-transform:uppercase;color:var(--ink)}
+p{font-size:14px;line-height:1.6;color:#555;margin:8px 0}
+.date-time{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);margin:20px 0;font-weight:bold}
+.location{font-size:13px;color:#666;line-height:1.5;margin-bottom:10px}
+
+/* Entourage Layout Grid */
+.entourage-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:left;margin-top:15px}
+.entourage-col{background:#faf8f3;padding:16px;border:1px solid var(--line);border-radius:2px}
+.entourage-col h3{text-align:center;margin-top:0;color:var(--gold);font-size:13px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.person-list{font-size:13px;color:#555;line-height:1.6;text-align:center}
+.single-column{text-align:center;background:#faf8f3;padding:16px;border:1px solid var(--line);border-radius:2px;margin-top:15px}
+
+/* Details Section Specifics */
+.color-swatches{display:flex;justify-content:center;gap:8px;margin:12px 0}
+.swatch{width:24px;height:24px;border-radius:50%;border:1px solid #ccc}
+.sponsor-colors{background:#b79b63}
+.guest-color-1{background:#e3b23c}
+.guest-color-2{background:#f1cb75}
+.guest-color-3{background:#f9e0a2}
+.guest-color-4{background:#fcefd0}
+
+@media(max-width:768px){
+  .entourage-grid{grid-template-columns:1fr}
+  .card{padding:24px 16px}
+  h1{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<!-- ENVELOPE INTRO SCREEN -->
+<div id="envelope-screen" onclick="openEnvelope()">
+  <div class="envelope">
+    <div class="envelope-flap"></div>
+    <div class="wax-seal">F&A</div>
+  </div>
+  <div class="env-text">Tap to Open Invitation</div>
+</div>
+
+<!-- MAIN INVITATION CONTENT -->
+<div class="wrap" id="invitation-app">
+  
+  <div class="top-nav">
+    <!-- Change href="index.html" to your main website or portal link -->
+    <a href="#" class="btn-back" onclick="history.back(); return false;">← Back to Portal</a>
+  </div>
+
+  <!-- PAGE 1: MAIN INVITE -->
+  <div class="card">
+    <div class="monogram">F & A</div>
+    <div class="kicker">You are cordially invited to the wedding of</div>
+    <h1>Reggie Fox Capua</h1>
+    <div style="font-size:18px; font-style:italic; color:var(--gold); margin:5px 0;">and</div>
+    <h1>Rose Angelika Valmonte</h1>
+    
+    <p style="margin-top:20px; font-size:13px; text-transform:uppercase; letter-spacing:1px;">Together with our families</p>
+    
+    <div style="font-size:12px; color:#666; line-height:1.5; margin:10px 0;">
+      <strong>Mr. Rennie Capua & Mrs. Grace Capua</strong><br>
+      <strong>Mr. Ceasar Higino Valmonte Jr. & Mrs. Marilou Valmonte</strong>
+    </div>
+
+    <div class="date-time">
+      Wednesday, 9th of December 2026<br>
+      <span style="font-weight:normal; font-size:13px; letter-spacing:1px;">Two o’ clock in the afternoon</span>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:4px;">Ceremony and Reception</div>
+      <div class="location"><strong>BRICK HOUSE GARDENS</strong><br>Sitio Laot Brgy, Buenavista, Santa Maria, Bulacan</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: ENTOURAGE PART 1 (Principal Sponsors & Major Bridal Party) -->
+  <div class="card">
+    <div class="monogram">F & A</div>
+    <h2>Our Entourage</h2>
+    
+    <h3>Principal Sponsors</h3>
+    <div class="entourage-grid" style="margin-bottom:20px;">
+      <div class="entourage-col">
+        <div class="person-list">
+          Mr. & Mrs. Christopher Ellar<br>
+          Mr. Carlo Marco Calaguian Cruz<br>
+          Mr. Ryan Noel Fabroa<br>
+          Mr. Froilan Pugao<br>
+          Mr. Porfirio De Guzman<br>
+          Mr. Jemuel Castillo<br>
+          Mr. Larry Santiago<br>
+          Mr. Percival Torres<br>
+          Mr. Renato Capua<br>
+          Mr. Romil Cenilllo<br>
+          Mr. & Mrs. Ronnie Dalan<br>
+          Mr. Jaime Cheng Pe<br>
+          Engr. Tiborcio Bermoy
+        </div>
+      </div>
+      <div class="entourage-col">
+        <div class="person-list">
+          Mrs. Maria Valen Gabest Roluna<br>
+          Mrs. Valentina Remot<br>
+          Mrs. Rosemarie Pineda<br>
+          Mrs. Evangeline Bisnar<br>
+          Mrs. Josie Lapuz<br>
+          Mrs. Racel Lanugon<br>
+          Mrs. Helen Santos<br>
+          Mrs. Maria Luisa Magpayo<br>
+          Mrs. Cristita Bagalay<br>
+          Mrs. Gloria Salinga<br>
+          Ms. Elvira Menchie Elan<br>
+          Mrs. Maria Teresita Bonza<br>
+          Mrs. Arcadia Olaco
+        </div>
+      </div>
+    </div>
+
+    <div class="entourage-grid">
+      <div class="entourage-col">
+        <h3>Best Men</h3>
+        <div class="person-list">John Lloyd Remot<br>Jonas Salonga</div>
+        
+        <h3 style="margin-top:20px;">Groomsmen</h3>
+        <div class="person-list">Rain Justine Valmonte<br>Vincent Sulapas<br>Raven Navarro</div>
+      </div>
+      <div class="entourage-col">
+        <h3>Maids of Honor</h3>
+        <div class="person-list">Ana Micaela Jusay<br>Leslie Jane Pineda</div>
+        
+        <h3 style="margin-top:20px;">Bridesmaids</h3>
+        <div class="person-list">Princess Capua<br>Diane Maqueda<br>Julle Zafra</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: ENTOURAGE PART 2 (Secondary Sponsors & Bearers) -->
+  <div class="card">
+    <div class="monogram">F & A</div>
+    <h2>Secondary Sponsors & Bearers</h2>
+
+    <div class="entourage-grid">
+      <div class="entourage-col">
+        <h3>Candle Sponsor</h3>
+        <div class="person-list">Rennie Capua Jr.<br>Karla Pugao</div>
+      </div>
+      <div class="entourage-col">
+        <h3>Veil Sponsor</h3>
+        <div class="person-list">Allen Rey Roluna<br>Ei Shin Lin</div>
+      </div>
+    </div>
+
+    <div class="single-column" style="margin-top:15px;">
+      <h3>Cord Sponsor</h3>
+      <div class="person-list">Ryan Valmonte & Lovely Valmonte</div>
+    </div>
+
+    <div class="entourage-grid" style="margin-top:15px;">
+      <div class="entourage-col">
+        <h3>Ring Bearer</h3>
+        <div class="person-list">Zeus Wilson Infante</div>
+      </div>
+      <div class="entourage-col">
+        <h3>Coin Bearer</h3>
+        <div class="person-list">Zyren Rio Miguel</div>
+      </div>
+    </div>
+
+    <div class="single-column" style="margin-top:15px;">
+      <h3>Bible Bearer</h3>
+      <div class="person-list">Zyron Ross Miguel</div>
+    </div>
+
+    <div class="single-column" style="margin-top:15px;">
+      <h3>Flower Girls</h3>
+      <div class="person-list">Rafaela Louise Valmonte<br>Aryhan Khy De Guzman<br>Marianne Joy Quines</div>
+    </div>
+
+    <div class="single-column" style="margin-top:15px;">
+      <h3>Escort</h3>
+      <div class="person-list">Dylan Terence Samindao</div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: THE DETAILS & GUIDELINES -->
+  <div class="card">
+    <div class="monogram">F & A</div>
+    <h2>The Details</h2>
+
+    <h3>Dress Code</h3>
+    <p>We encourage everyone to please dress according to our color theme.</p>
+    
+    <div style="margin:15px 0;">
+      <div style="font-size:12px; text-transform:uppercase; color:var(--gold); font-weight:bold;">Principal Sponsors</div>
+      <p style="font-size:12px; margin:2px 0;">Formal Attire | Gentlemen: Black Suit & Shades of Gold Neck Tie | Ladies: Dress / Gown</p>
+      <div class="color-swatches">
+        <div class="swatch" style="background:#8b6b23"></div>
+        <div class="swatch" style="background:#a68334"></div>
+        <div class="swatch" style="background:#b79b63"></div>
+        <div class="swatch" style="background:#d4bc82"></div>
+        <div class="swatch" style="background:#edd69d"></div>
+      </div>
+    </div>
+
+    <div style="margin:15px 0;">
+      <div style="font-size:12px; text-transform:uppercase; color:var(--gold); font-weight:bold;">Guests</div>
+      <p style="font-size:12px; margin:2px 0;">Formal Attire in Theme Shades</p>
+      <div class="color-swatches">
+        <div class="swatch guest-color-1"></div>
+        <div class="swatch guest-color-2"></div>
+        <div class="swatch guest-color-3"></div>
+        <div class="swatch guest-color-4"></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:25px;">Gifts</h3>
+    <p>We feel deeply blessed to celebrate with you. Your presence and prayers mean so much to us. However, if you desire to give a gift, monetary gift would be very welcome.</p>
+
+    <h3 style="margin-top:25px;">Adult-Only Wedding</h3>
+    <p>As much as we'd love to invite all of our friends' wonderful little ones, we can only accommodate close family children. We hope that you will understand this decision and that you will still be able to join us on our special day.</p>
+
+    <h3 style="margin-top:25px;">Unplugged Ceremony</h3>
+    <p>We kindly request that you put away your phones, cameras, and other devices during our ceremony. Be fully present with us as we exchange our vows and celebrate this special moment together. Our professional photographer will capture the memories for everyone to cherish.</p>
+  </div>
+
+</div>
+
+<script>
+function openEnvelope() {
+  const screen = document.getElementById("envelope-screen");
+  const app = document.getElementById("invitation-app");
+  
+  screen.classList.add("fade-out");
+  app.classList.add("visible");
+  
+  // Completely remove from layout flow after transition completes
+  setTimeout(() => {
+    screen.style.display = "none";
+  }, 800);
+}
+</script>
+
+</body>
+</html>

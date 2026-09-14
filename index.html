@@ -141,11 +141,22 @@ function goBackToPortal(event) {
   }
 }
 
-// Automatically scroll to the bottom if returning via history back
+// Automatically scroll to the bottom with a delay/loop check if returning via history back
 window.addEventListener('pageshow', function() {
   if (sessionStorage.getItem('scrollToBottom') === 'true') {
     sessionStorage.removeItem('scrollToBottom');
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    
+    // Use a small loop/timeout delay to ensure page images have loaded and document height is expanded
+    let attempts = 0;
+    const checkHeightAndScroll = setInterval(() => {
+      attempts++;
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      
+      // Stop checking after ~1 second or if max height is reached
+      if (attempts > 10) {
+        clearInterval(checkHeightAndScroll);
+      }
+    }, 100);
   }
 });
 </script>

@@ -10,31 +10,39 @@
 body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
 
 /* Envelope Screen Overlay */
-#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#2b3430;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.8s ease, transform 0.8s ease;cursor:pointer;padding:20px;text-align:center}
-#envelope-screen.fade-out{opacity:0;transform:scale(1.05);pointer-events:none}
+#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#2b2f2a;background-image:radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.9s ease;padding:20px;text-align:center}
+#envelope-screen.fade-out{opacity:0;pointer-events:none}
 
-.env-header{font-family:Georgia,serif;font-style:italic;font-size:28px;color:#f3eee2;margin-bottom:30px;letter-spacing:1px;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.env-title{color:#fff;font-size:26px;font-style:italic;letter-spacing:1px;margin-bottom:24px;font-weight:normal;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
 
-/* Realistic Deckle-Edge Envelope Container */
-.envelope{width:360px;height:240px;background:#fbfaf7;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.4);border-radius:2px;transition:transform 0.3s ease;overflow:hidden;background-image:radial-gradient(#f1eee5 15%, transparent 16%), radial-gradient(#ece6da 15%, transparent 16%);background-size:12px 12px}
-.envelope:hover{transform:translateY(-3px)}
+/* Realistic Envelope Design */
+.envelope-wrapper{position:relative;width:360px;height:240px;cursor:pointer;filter:drop-shadow(0 20px 30px rgba(0,0,0,0.4));transition:transform 0.4s ease}
+.envelope-wrapper:hover{transform:translateY(-4px)}
 
-/* Envelope Flaps (Creating the V-folds) */
-.envelope-flap-top{position:absolute;top:0;left:0;width:0;height:0;border-left:180px solid transparent;border-right:180px solid transparent;border-top:125px solid #ece6da;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.05))}
-.envelope-flap-left{position:absolute;top:0;left:0;width:0;height:0;border-top:120px solid transparent;border-bottom:120px solid transparent;border-left:180px solid #f4efe6}
-.envelope-flap-right{position:absolute;top:0;right:0;width:0;height:0;border-top:120px solid transparent;border-bottom:120px solid transparent;border-right:180px solid #f4efe6}
-.envelope-flap-bottom{position:absolute;bottom:0;left:0;width:0;height:0;border-left:180px solid transparent;border-right:180px solid transparent;border-bottom:115px solid #eae3d5}
+.envelope-body{position:absolute;width:100%;height:100%;background:#fbf9f4;background-image:radial-gradient(circle at 50% 50%, #fffdfa 0%, #f3eee3 100%);border-radius:3px;overflow:hidden;box-shadow:inset 0 0 15px rgba(0,0,0,0.05)}
 
-/* Yellow Wax Seal positioned at the center flap meeting point */
-.wax-seal-wrapper{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);z-index:10}
-.wax-seal{width:64px;height:64px;background:radial-gradient(circle, #dfbc6d 0%, #b79b63 70%, #967c46 100%);border-radius:50%;box-shadow:0 6px 15px rgba(0,0,0,0.3);display:flex;justify-content:center;align-items:center;color:#fffdf8;font-family:Georgia,serif;font-weight:bold;font-size:18px;border:2px dashed rgba(255,255,255,0.4)}
+/* Envelope Creases / Flaps */
+.flap-left{position:absolute;top:0;left:0;width:0;height:0;border-top:120px solid transparent;border-bottom:120px solid transparent;border-left:180px solid rgba(0,0,0,0.04)}
+.flap-right{position:absolute;top:0;right:0;width:0;height:0;border-top:120px solid transparent;border-bottom:120px solid transparent;border-right:180px solid rgba(0,0,0,0.04)}
+.flap-bottom{position:absolute;bottom:0;left:0;width:0;height:0;border-left:180px solid transparent;border-right:180px solid transparent;border-bottom:120px solid rgba(0,0,0,0.07)}
 
-.env-footer{margin-top:35px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#e2dad0;text-shadow:0 1px 2px rgba(0,0,0,0.3);animation:pulse 2s infinite}
+/* Top Flap that opens */
+.flap-top{position:absolute;top:0;left:0;width:0;height:0;border-left:180px solid transparent;border-right:180px solid transparent;border-top:115px solid #ece4d2;transform-origin:top;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);z-index:3}
+.envelope-wrapper.opening .flap-top{transform:rotateX(180deg);z-index:0}
+
+/* Realistic Golden Wax Seal with logo.jpg */
+.wax-seal{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);width:68px;height:68px;background:radial-gradient(circle at 35% 35%, #f4d06f 0%, #d4af37 60%, #997a15 100%);border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.3), inset 0 2px 3px rgba(255,255,255,0.6), inset 0 -2px 3px rgba(0,0,0,0.4);display:flex;justify-content:center;align-items:center;z-index:4;border:2px solid #b89728;transition:transform 0.3s ease, opacity 0.3s ease;overflow:hidden}
+.envelope-wrapper.opening .wax-seal{transform:translateX(-50%) scale(1.2);opacity:0}
+
+/* Seal logo image styling */
+.wax-seal img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;opacity:0.9}
+
+.env-instruction{color:#e2d9c5;font-size:12px;letter-spacing:3px;text-transform:uppercase;margin-top:28px;animation:pulse 2s infinite;text-shadow:0 1px 2px rgba(0,0,0,0.5)}
 
 @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
 
 /* Main Scroll Content Container */
-#invitation-app{opacity:0;transform:translateY(20px);transition:opacity 1s ease 0.3s, transform 1s ease 0.3s;pointer-events:none;max-width:800px;margin:auto;padding:20px 16px 60px}
+#invitation-app{opacity:0;transform:translateY(30px);transition:opacity 1s ease 0.4s, transform 1s ease 0.4s;pointer-events:none;max-width:800px;margin:auto;padding:20px 16px 60px}
 #invitation-app.visible{opacity:1;transform:translateY(0);pointer-events:auto}
 
 /* Navigation Bar Styling */
@@ -54,21 +62,22 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 <audio id="bgAudio" src="HENRY - It's You (Violin Version).mp3" loop preload="auto"></audio>
 
 <!-- ENVELOPE INTRO SCREEN -->
-<div id="envelope-screen" onclick="openEnvelope()">
-  <div class="env-header">You are invited!</div>
+<div id="envelope-screen">
+  <div class="env-title">You are invited!</div>
   
-  <div class="envelope">
-    <div class="envelope-flap-top"></div>
-    <div class="envelope-flap-left"></div>
-    <div class="envelope-flap-right"></div>
-    <div class="envelope-flap-bottom"></div>
-    
-    <div class="wax-seal-wrapper">
-      <div class="wax-seal">F&A</div>
+  <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
+    <div class="envelope-body">
+      <div class="flap-left"></div>
+      <div class="flap-right"></div>
+      <div class="flap-bottom"></div>
+      <div class="flap-top"></div>
+    </div>
+    <div class="wax-seal">
+      <img src="logo.jpg" alt="F&A Logo">
     </div>
   </div>
-  
-  <div class="env-footer">Click the seal to open</div>
+
+  <div class="env-instruction">CLICK THE SEAL TO OPEN</div>
 </div>
 
 <!-- MAIN INVITATION CONTENT CONTAINING PAGE IMAGES -->
@@ -79,7 +88,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   </div>
 
   <div class="image-scroll-container">
-    <img src="page_1.jpg" alt="Wedding Invitation - Page 1" class="invitation-page">
+    <img src="Page_1.jpeg" alt="Wedding Invitation - Page 1" class="invitation-page">
     <img src="page_2.jpg" alt="Wedding Entourage - Page 2" class="invitation-page">
     <img src="page_3.jpg" alt="Wedding Entourage - Page 3" class="invitation-page">
     <img src="page_4.jpg" alt="Wedding Details - Page 4" class="invitation-page">
@@ -93,22 +102,29 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 
 <script>
 function openEnvelope() {
+  const wrapper = document.getElementById("envelopeWrapper");
+  const screen = document.getElementById("envelope-screen");
+  const app = document.getElementById("invitation-app");
+  
   // Play background music on repeat
   const audio = document.getElementById("bgAudio");
   audio.play().catch(error => {
     console.log("Audio playback prevented or failed:", error);
   });
 
-  const screen = document.getElementById("envelope-screen");
-  const app = document.getElementById("invitation-app");
+  // Trigger flap opening animation
+  wrapper.classList.add("opening");
+
+  // Fade out screen overlay and fade in the invitation scroll after flap starts opening
+  setTimeout(() => {
+    screen.classList.add("fade-out");
+    app.classList.add("visible");
+  }, 400);
   
-  screen.classList.add("fade-out");
-  app.classList.add("visible");
-  
-  // Completely hide overlay after transition
+  // Completely remove overlay element from layout after transitions finish
   setTimeout(() => {
     screen.style.display = "none";
-  }, 800);
+  }, 1300);
 }
 </script>
 

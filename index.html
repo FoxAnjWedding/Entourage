@@ -10,16 +10,26 @@
 body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
 
 /* Envelope Screen Overlay */
-#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:var(--cream);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.8s ease, transform 0.8s ease;cursor:pointer;padding:20px;text-align:center}
+#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#2b3430;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.8s ease, transform 0.8s ease;cursor:pointer;padding:20px;text-align:center}
 #envelope-screen.fade-out{opacity:0;transform:scale(1.05);pointer-events:none}
 
-.envelope{width:320px;height:220px;background:#f1eee5;border:1px solid var(--line);position:relative;box-shadow:0 15px 35px rgba(0,0,0,0.08);display:flex;justify-content:center;align-items:center;border-radius:4px;transition:transform 0.3s ease}
-.envelope:hover{transform:translateY(-3px)}
-.envelope-flap{position:absolute;top:0;left:0;width:0;height:0;border-left:160px solid transparent;border-right:160px solid transparent;border-top:110px solid #e4decc;transform-origin:top}
+.env-header{font-family:Georgia,serif;font-style:italic;font-size:28px;color:#f3eee2;margin-bottom:30px;letter-spacing:1px;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
 
-/* Yellow Wax Seal */
-.wax-seal{width:64px;height:64px;background:radial-gradient(circle, #dfbc6d 0%, #b79b63 70%, #967c46 100%);border-radius:50%;box-shadow:0 4px 10px rgba(0,0,0,0.2);display:flex;justify-content:center;align-items:center;z-index:2;color:#fffdf8;font-family:Georgia,serif;font-weight:bold;font-size:20px;border:2px dashed rgba(255,255,255,0.4);position:relative}
-.env-text{margin-top:24px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);animation:pulse 2s infinite}
+/* Realistic Deckle-Edge Envelope Container */
+.envelope{width:360px;height:240px;background:#fbfaf7;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.4);border-radius:2px;transition:transform 0.3s ease;overflow:hidden;background-image:radial-gradient(#f1eee5 15%, transparent 16%), radial-gradient(#ece6da 15%, transparent 16%);background-size:12px 12px}
+.envelope:hover{transform:translateY(-3px)}
+
+/* Envelope Flaps (Creating the V-folds) */
+.envelope-flap-top{position:absolute;top:0;left:0;width:0;height:0;border-left:180px solid transparent;border-right:180px solid transparent;border-top:125px solid #ece6da;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.05))}
+.envelope-flap-left{position:absolute;top:0;left:0;width:0;height:0;border-top:120px solid transparent;border-bottom:120px solid transparent;border-left:180px solid #f4efe6}
+.envelope-flap-right{position:absolute;top:0;right:0;width:0;height:0;border-top:120px solid transparent;border-bottom:120px solid transparent;border-right:180px solid #f4efe6}
+.envelope-flap-bottom{position:absolute;bottom:0;left:0;width:0;height:0;border-left:180px solid transparent;border-right:180px solid transparent;border-bottom:115px solid #eae3d5}
+
+/* Yellow Wax Seal positioned at the center flap meeting point */
+.wax-seal-wrapper{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);z-index:10}
+.wax-seal{width:64px;height:64px;background:radial-gradient(circle, #dfbc6d 0%, #b79b63 70%, #967c46 100%);border-radius:50%;box-shadow:0 6px 15px rgba(0,0,0,0.3);display:flex;justify-content:center;align-items:center;color:#fffdf8;font-family:Georgia,serif;font-weight:bold;font-size:18px;border:2px dashed rgba(255,255,255,0.4)}
+
+.env-footer{margin-top:35px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#e2dad0;text-shadow:0 1px 2px rgba(0,0,0,0.3);animation:pulse 2s infinite}
 
 @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
 
@@ -45,11 +55,20 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 
 <!-- ENVELOPE INTRO SCREEN -->
 <div id="envelope-screen" onclick="openEnvelope()">
+  <div class="env-header">You are invited!</div>
+  
   <div class="envelope">
-    <div class="envelope-flap"></div>
-    <div class="wax-seal">F&A</div>
+    <div class="envelope-flap-top"></div>
+    <div class="envelope-flap-left"></div>
+    <div class="envelope-flap-right"></div>
+    <div class="envelope-flap-bottom"></div>
+    
+    <div class="wax-seal-wrapper">
+      <div class="wax-seal">F&A</div>
+    </div>
   </div>
-  <div class="env-text">Tap to Open Invitation</div>
+  
+  <div class="env-footer">Click the seal to open</div>
 </div>
 
 <!-- MAIN INVITATION CONTENT CONTAINING PAGE IMAGES -->
@@ -60,7 +79,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   </div>
 
   <div class="image-scroll-container">
-    <img src="Page_1.jpeg" alt="Wedding Invitation - Page 1" class="invitation-page">
+    <img src="page_1.jpg" alt="Wedding Invitation - Page 1" class="invitation-page">
     <img src="page_2.jpg" alt="Wedding Entourage - Page 2" class="invitation-page">
     <img src="page_3.jpg" alt="Wedding Entourage - Page 3" class="invitation-page">
     <img src="page_4.jpg" alt="Wedding Details - Page 4" class="invitation-page">

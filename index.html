@@ -39,20 +39,28 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  gap:12px;
+  gap: -1px; /* Minimized center gap so scrolls are very close */
   transition:transform 0.4s ease;
   filter:drop-shadow(0 15px 25px rgba(0,0,0,0.12));
 }
 .scroll-wrapper:hover{transform:translateY(-4px)}
 
-/* Individual Scroll Images */
+/* Individual Scroll Images - Blending white edges */
 .scroll-piece{
   width:100%;
-  height:auto;
-  object-fit:contain;
+  height:72px;
+  object-fit:cover;
   display:block;
   z-index:2;
+  mix-blend-mode: multiply; /* Blends white background out smoothly */
   transition:transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+}
+
+.scroll-top {
+  object-position: bottom;
+}
+.scroll-bottom {
+  object-position: top;
 }
 
 /* Unscrolling Animation States */
@@ -65,19 +73,20 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   opacity: 0;
 }
 
-/* F&A Logo centered between scrolls */
+/* F&A Wax Seal sized to combined height of top and bottom scroll */
 .scroll-logo{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
-  width:56px;
-  height:56px;
+  width:84px;
+  height:84px;
   border-radius:50%;
   overflow:hidden;
   z-index:3;
-  box-shadow:0 4px 10px rgba(0,0,0,0.15);
+  box-shadow:0 6px 16px rgba(0,0,0,0.25);
   border:2px solid var(--gold);
+  background:#fff;
   transition:transform 0.4s ease, opacity 0.4s ease;
 }
 .scroll-logo img{
@@ -168,7 +177,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   <div class="scroll-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
     <img src="top scroll.png" alt="Top Scroll" class="scroll-piece scroll-top">
     <div class="scroll-logo" id="scrollLogo">
-      <img src="F&A.jpg" alt="F&A Logo">
+      <img src="F&A Wax.png" alt="F&A Wax Seal">
     </div>
     <img src="bottom scroll.png" alt="Bottom Scroll" class="scroll-piece scroll-bottom">
   </div>

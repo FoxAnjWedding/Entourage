@@ -5,62 +5,135 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Reggie & Angelika — Wedding Invitation</title>
 <style>
-:root{--cream:#f8f4ec;--paper:#fffdf8;--ink:#3f4037;--sage:#7d8a70;--gold:#b79b63;--line:#ded8ca;--error:#9b4d42}
+:root{
+  --cream:#f8f4ec;
+  --paper:#fffdf8;
+  --ink:#3f4037;
+  --sage:#7d8a70;
+  --gold:#b79b63;
+  --line:#ded8ca;
+  --error:#9b4d42;
+}
 *{box-sizing:border-box}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
 
 /* Intro Screen Overlay */
-#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#2b2f2a;background-image:radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.88) 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.9s ease;padding:20px;text-align:center;overflow:hidden}
+#envelope-screen{
+  position:fixed;top:0;left:0;width:100vw;height:100vh;
+  background:#2b2f2a;
+  background-image:radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  z-index:999;transition:opacity 0.9s ease;padding:20px;text-align:center;
+}
 #envelope-screen.fade-out{opacity:0;pointer-events:none}
 
-.env-title{color:#fff;font-size:28px;font-style:italic;letter-spacing:1px;margin-bottom:35px;font-weight:normal;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
+.env-title{color:#fff;font-size:28px;font-style:italic;letter-spacing:1px;margin-bottom:28px;font-weight:normal;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
 
-/* Horizontal Scroll Container */
-.scroll-container{position:relative;width:160px;height:320px;cursor:pointer;filter:drop-shadow(0 20px 30px rgba(0,0,0,0.6));display:flex;align-items:center;justify-content:center}
+/* Scroll Container & Wrapper */
+.scroll-wrapper{
+  position:relative;
+  width:380px;
+  height:160px;
+  cursor:pointer;
+  filter:drop-shadow(0 25px 35px rgba(0,0,0,0.5));
+  transition:transform 0.4s ease;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.scroll-wrapper:hover{transform:translateY(-5px)}
 
-/* Central Roll body that expands horizontally */
-.scroll-sheet{position:absolute;width:130px;height:40px;background:var(--paper);background-image:radial-gradient(circle at 50% 50%, #fffdfa 0%, #f2ede2 100%);border-left:2px solid var(--line);border-right:2px solid var(--line);box-shadow:inset 0 0 15px rgba(183,155,99,0.15);transition:height 1s cubic-bezier(0.4,0,0.2,1);z-index:2;display:flex;align-items:center;justify-content:center;overflow:hidden}
-
-.scroll-container.opening .scroll-sheet{height:280px}
-
-/* Ornate Scroll Pattern Overlay */
-.scroll-pattern{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5c5 5 10 2 15 7s2 10 7 15-2 10 3 15-7 10-7 15-2 5-7 5-5-2-10-7-2-10-7-15 2-10-3-15 7-10 7-15 2-5 7-5z' fill='%23b79b63' fill-opacity='0.08'/%3E%3C/svg%3E");opacity:0.8;width:100%;height:100%}
-
-/* Top & Bottom Roll Cylinders with Gold Knobs */
-.scroll-roller{position:absolute;width:150px;height:34px;background:linear-gradient(180deg, #8c6d12 0%, #d4af37 40%, #f6d67b 70%, #8c6d12 100%);border-radius:6px;z-index:3;display:flex;justify-content:space-between;align-items:center;transition:transform 1s cubic-bezier(0.4,0,0.2,1);box-shadow:0 5px 12px rgba(0,0,0,0.4)}
-
-.roller-top{top:20px;transform:translateY(120px)}
-.roller-bottom{bottom:20px;transform:translateY(-120px)}
-
-.scroll-container.opening .roller-top{transform:translateY(0)}
-.scroll-container.opening .roller-bottom{transform:translateY(0)}
-
-/* Golden Ball Knobs at left and right of rollers */
-.knob{width:18px;height:40px;background:radial-gradient(circle at 35% 35%, #f6d67b 0%, #d4af37 60%, #6d520c 100%);border-radius:50%;border:1px solid #7c5d0e;box-shadow:0 2px 4px rgba(0,0,0,0.4)}
-.knob-left{margin-left:-6px}
-.knob-right{margin-right:-6px}
-
-/* Wax Seal in Center */
-.wax-seal{position:absolute;width:72px;height:72px;background:radial-gradient(circle at 35% 35%, #f6d67b 0%, #d4af37 65%, #8c6d12 100%);border-radius:50%;box-shadow:0 5px 15px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.7), inset 0 -3px 4px rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;z-index:5;border:2px solid #b39023;transition:transform 0.4s ease, opacity 0.4s ease;overflow:hidden}
-.scroll-container.opening .wax-seal{transform:scale(1.3);opacity:0}
-.wax-seal img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1)}
-
-/* Yellow Petals Burst Animation Container */
-#petal-container{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:10}
-.petal{position:absolute;width:12px;height:18px;background:radial-gradient(circle at 30% 30%, #fff2b2 0%, var(--gold) 60%, #b38b3a 100%);border-radius:50% 0 50% 50%;opacity:0;box-shadow:0 2px 4px rgba(0,0,0,0.15)}
-
-@keyframes burstPetal{
-  0%{transform:translate(0,0) scale(0.3) rotate(0deg);opacity:1}
-  100%{transform:translate(var(--dx), var(--dy)) scale(1.1) rotate(var(--rot));opacity:0}
+/* The Scroll Image (SCROLL AI.jpeg) */
+.scroll-img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  position:relative;
+  z-index:2;
+  transition:transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
 }
 
-.env-instruction{color:#e2d9c5;font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:40px;animation:pulse 2s infinite;text-shadow:0 1px 2px rgba(0,0,0,0.5)}
+/* F&A Logo centered on the scroll */
+.scroll-logo{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  overflow:hidden;
+  z-index:3;
+  box-shadow:0 4px 10px rgba(0,0,0,0.25);
+  border:2px solid var(--gold);
+  transition:transform 0.4s ease, opacity 0.4s ease;
+}
+.scroll-logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* Unscrolling state effects */
+.scroll-wrapper.opening .scroll-logo{
+  transform:translate(-50%, -50%) scale(1.3);
+  opacity:0;
+}
+.scroll-wrapper.opening .scroll-img {
+  transform: scaleY(0.05); /* crushes vertically as it unrolls up & down */
+  opacity: 0;
+}
+
+/* Yellow Petals Burst Animation Container */
+#petal-container {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+.petal {
+  position: absolute;
+  background: var(--gold);
+  border-radius: 150% 0 150% 0;
+  opacity: 0.85;
+  transform: scale(0);
+  animation: burstPetal 1.2s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+@keyframes burstPetal {
+  0% {
+    transform: translate(0, 0) scale(0.2) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(1) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+.env-instruction{color:#e2d9c5;font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:32px;animation:pulse 2s infinite;text-shadow:0 1px 2px rgba(0,0,0,0.5)}
 
 @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
 
 /* Main Scroll Content Container */
-#invitation-app{opacity:0;transform:translateY(30px);transition:opacity 1s ease 0.4s, transform 1s ease 0.4s;pointer-events:none;max-width:800px;margin:auto;padding:20px 16px 60px}
-#invitation-app.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#invitation-app{
+  opacity:0;
+  transform:translateY(30px);
+  max-height:0;
+  overflow:hidden;
+  transition:opacity 1s ease 0.4s, transform 1s ease 0.4s, max-height 1.2s ease 0.4s;
+  pointer-events:none;
+  max-width:800px;
+  margin:auto;
+  padding:0 16px;
+}
+#invitation-app.visible{
+  opacity:1;
+  transform:translateY(0);
+  max-height:5000px;
+  pointer-events:auto;
+  padding:20px 16px 60px;
+}
 
 /* Navigation Bar Styling */
 .top-nav{margin-bottom:15px;display:flex;justify-content:flex-start}
@@ -78,38 +151,21 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 <!-- BACKGROUND AUDIO -->
 <audio id="bgAudio" src="HENRY - It's You (Violin Version).mp3" loop preload="auto"></audio>
 
-<!-- ENVELOPE / SCROLL INTRO SCREEN -->
+<!-- PETAL BURST CONTAINER -->
+<div id="petal-container"></div>
+
+<!-- SCROLL INTRO SCREEN -->
 <div id="envelope-screen">
   <div class="env-title">You are invited!</div>
   
-  <div class="scroll-container" id="scrollContainer" onclick="openScroll()">
-    <!-- Top Roller & Knob -->
-    <div class="scroll-roller roller-top">
-      <div class="knob knob-left"></div>
-      <div class="knobs knob-right"></div>
-    </div>
-
-    <!-- Central Unrolling Paper Sheet -->
-    <div class="scroll-sheet">
-      <div class="scroll-pattern"></div>
-    </div>
-
-    <!-- Bottom Roller & Knob -->
-    <div class="scroll-roller roller-bottom">
-      <div class="knob knob-left"></div>
-      <div class="knob knob-right"></div>
-    </div>
-
-    <!-- Center Wax Seal -->
-    <div class="wax-seal" id="waxSeal">
+  <div class="scroll-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
+    <img src="SCROLL AI.jpeg" alt="Wedding Scroll" class="scroll-img">
+    <div class="scroll-logo" id="scrollLogo">
       <img src="F&A.jpg" alt="F&A Logo">
     </div>
-
-    <!-- Petal Burst Layer -->
-    <div id="petal-container"></div>
   </div>
 
-  <div class="env-instruction">CLICK THE SEAL TO UNROLL</div>
+  <div class="env-instruction">CLICK THE SCROLL TO OPEN</div>
 </div>
 
 <!-- MAIN INVITATION CONTENT CONTAINING PAGE IMAGES -->
@@ -133,61 +189,73 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 </div>
 
 <script>
-function openScroll() {
-  const container = document.getElementById("scrollContainer");
+function createPetalBurst() {
+  const container = document.getElementById('petal-container');
+  const numPetals = 25;
+  const rect = document.getElementById('envelopeWrapper').getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  for (let i = 0; i < numPetals; i++) {
+    const petal = document.createElement('div');
+    petal.classList.add('petal');
+    
+    // Random sizes matching palette tones (gold & cream variations)
+    const size = Math.random() * 12 + 8;
+    petal.style.width = size + 'px';
+    petal.style.height = (size * 1.6) + 'px';
+    petal.style.left = centerX + 'px';
+    petal.style.top = centerY + 'px';
+
+    // Random colors from palette
+    const colors = ['var(--gold)', '#d4af37', '#f6d67b', '#b79b63', '#fffdf8'];
+    petal.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    // Calculate random radial trajectories (bursting outward in all directions)
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * 220 + 80;
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance;
+    const rotation = Math.random() * 360;
+
+    petal.style.setProperty('--dx', `${dx}px`);
+    petal.style.setProperty('--dy', `${dy}px`);
+    petal.style.setProperty('--rot', `${rotation}deg`);
+
+    container.appendChild(petal);
+
+    // Clean up after animation finishes
+    setTimeout(() => {
+      petal.remove();
+    }, 1200);
+  }
+}
+
+function openEnvelope() {
+  const wrapper = document.getElementById("envelopeWrapper");
   const screen = document.getElementById("envelope-screen");
   const app = document.getElementById("invitation-app");
-  const petalContainer = document.getElementById("petal-container");
   
-  // Prevent multiple clicks
-  if (container.classList.contains("opening")) return;
-
   // Play background music on repeat
   const audio = document.getElementById("bgAudio");
   audio.play().catch(error => {
     console.log("Audio playback prevented or failed:", error);
   });
 
-  // Trigger horizontal unrolling animation
-  container.classList.add("opening");
+  // Trigger petal burst effect and scroll opening animation
+  createPetalBurst();
+  wrapper.classList.add("opening");
 
-  // Create burst of yellow petals matching your theme colors
-  const petalColors = ['#f8f4ec', '#fffdf8', '#b79b63', '#fff2b2', '#d4af37'];
-  for (let i = 0; i < 35; i++) {
-    const petal = document.createElement("div");
-    petal.classList.add("petal");
-    
-    // Random directions outward from center
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 120 + Math.random() * 220;
-    const dx = Math.cos(angle) * distance;
-    const dy = Math.sin(angle) * distance;
-    const rot = Math.random() * 360;
-    
-    petal.style.setProperty('--dx', `${dx}px`);
-    petal.style.setProperty('--dy', `${dy}px`);
-    petal.style.setProperty('--rot', `${rot}deg`);
-    
-    // Random color variation
-    petal.style.background = petalColors[Math.floor(Math.random() * petalColors.length)];
-    
-    // Staggered animation duration
-    const duration = 0.6 + Math.random() * 0.5;
-    petal.style.animation = `burstPetal ${duration}s ease-out forwards`;
-    
-    petalContainer.appendChild(petal);
-  }
-
-  // Fade out screen overlay and fade in invitation after unrolling animation finishes
+  // Fade out screen overlay and expand the invitation content smoothly
   setTimeout(() => {
     screen.classList.add("fade-out");
     app.classList.add("visible");
-  }, 850);
+  }, 350);
   
   // Completely remove overlay element from layout after transitions finish
   setTimeout(() => {
     screen.style.display = "none";
-  }, 1600);
+  }, 1200);
 }
 
 function goBackToPortal(event) {
@@ -201,9 +269,8 @@ function goBackToPortal(event) {
   }
 }
 
-// Automatically scroll to the bottom if returning via history back
 window.addEventListener('pageshow', function() {
-  if (sessionStorage.getItem('scrollToBottom'] === 'true') {
+  if (sessionStorage.getItem('scrollToBottom') === 'true') {
     sessionStorage.removeItem('scrollToBottom');
     
     let attempts = 0;

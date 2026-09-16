@@ -5,41 +5,50 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Reggie & Angelika — Wedding Invitation</title>
 <style>
-:root{--cream:#f8f4ec;--paper:#fffdf8;--ink:#3f4037;--gold:#b79b63;--line:#ded8ca}
+:root{--cream:#f8f4ec;--paper:#fffdf8;--ink:#3f4037;--sage:#7d8a70;--gold:#b79b63;--line:#ded8ca;--error:#9b4d42}
 *{box-sizing:border-box}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
 
-/* Envelope Screen Overlay */
-#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#2b2f2a;background-image:radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.9s ease;padding:20px;text-align:center}
+/* Scroll Screen Overlay */
+#envelope-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#2b2f2a;background-image:radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:opacity 0.9s ease;padding:20px;text-align:center;overflow:hidden}
 #envelope-screen.fade-out{opacity:0;pointer-events:none}
 
-.env-title{color:#fff;font-size:28px;font-style:italic;letter-spacing:1px;margin-bottom:28px;font-weight:normal;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
+.env-title{color:#fff;font-size:28px;font-style:italic;letter-spacing:1px;margin-bottom:32px;font-weight:normal;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
 
-/* Larger Realistic Envelope Design */
-.envelope-wrapper{position:relative;width:440px;height:300px;cursor:pointer;filter:drop-shadow(0 25px 35px rgba(0,0,0,0.5));transition:transform 0.4s ease}
-.envelope-wrapper:hover{transform:translateY(-5px)}
+/* Realistic Scroll Design */
+.scroll-wrapper{position:relative;width:120px;height:280px;cursor:pointer;filter:drop-shadow(0 20px 30px rgba(0,0,0,0.6));transition:transform 0.4s ease;display:flex;justify-content:center;align-items:center}
+.scroll-wrapper:hover{transform:scale(1.03)}
 
-.envelope-body{position:absolute;width:100%;height:100%;background:#fbf9f4;background-image:radial-gradient(circle at 50% 50%, #fffdfa 0%, #f2ede2 100%);border-radius:4px;overflow:hidden;border:1px solid #dcd4c3}
+/* Scroll Body / Cylinder Roll */
+.scroll-body{position:relative;width:90px;height:260px;background:var(--paper);background-image:radial-gradient(circle at 50% 50%, #fffdfa 0%, #f2ede2 100%);border:1px solid #dcd4c3;border-radius:4px;overflow:hidden;box-shadow:inset 0 0 15px rgba(183,155,99,0.25);transform-origin:top center;transition:transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), height 1.2s cubic-bezier(0.4, 0, 0.2, 1)}
 
-/* Envelope Creases / Flaps with clear defining lines */
-.flap-left{position:absolute;top:0;left:0;width:0;height:0;border-top:150px solid transparent;border-bottom:150px solid transparent;border-left:220px solid rgba(60,50,40,0.08);filter:drop-shadow(1px 0 0 rgba(60,50,40,0.12))}
-.flap-right{position:absolute;top:0;right:0;width:0;height:0;border-top:150px solid transparent;border-bottom:150px solid transparent;border-right:220px solid rgba(60,50,40,0.08);filter:drop-shadow(-1px 0 0 rgba(60,50,40,0.12))}
-.flap-bottom{position:absolute;bottom:0;left:0;width:0;height:0;border-left:220px solid transparent;border-right:220px solid transparent;border-bottom:150px solid rgba(60,50,40,0.1);filter:drop-shadow(0 -1px 0 rgba(60,50,40,0.15))}
+/* Decorative pattern overlay on the rolled scroll */
+.scroll-pattern{position:absolute;inset:0;background-image:radial-gradient(var(--gold) 1px, transparent 1px);background-size:16px 16px;opacity:0.15}
 
-/* Top Flap that opens with clear outline crease */
-.flap-top{position:absolute;top:0;left:0;width:0;height:0;border-left:220px solid transparent;border-right:220px solid transparent;border-top:145px solid #eae2d0;transform-origin:top;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);z-index:3;filter:drop-shadow(0 2px 2px rgba(60,50,40,0.15))}
-.envelope-wrapper.opening .flap-top{transform:rotateX(180deg);z-index:0}
+/* Scroll wooden/golden handles (top & bottom rods) */
+.scroll-rod-top, .scroll-rod-bottom{position:absolute;left:-8px;right:-8px;height:16px;background:radial-gradient(circle at 35% 35%, #f6d67b 0%, #d4af37 65%, #8c6d12 100%);border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.6);z-index:3;border:1px solid #a68228}
+.scroll-rod-top{top:-8px}
+.scroll-rod-bottom{bottom:-8px}
 
-/* Perfectly Aligned Golden Wax Seal with F&A.jpg logo */
-.wax-seal{position:absolute;top:145px;left:50%;transform:translate(-50%, -50%);width:78px;height:78px;background:radial-gradient(circle at 35% 35%, #f6d67b 0%, #d4af37 65%, #8c6d12 100%);border-radius:50%;box-shadow:0 5px 15px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.7), inset 0 -3px 4px rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;z-index:4;border:2px solid #b39023;transition:transform 0.3s ease, opacity 0.3s ease;overflow:hidden}
-.envelope-wrapper.opening .wax-seal{transform:translate(-50%, -50%) scale(1.2);opacity:0}
+/* Ribbon tie around the center of the scroll */
+.scroll-ribbon{position:absolute;top:50%;left:-10px;right:-10px;height:18px;background:linear-gradient(to bottom, #d4af37, #9a781d);transform:translateY(-50%);z-index:4;box-shadow:0 2px 5px rgba(0,0,0,0.3);transition:opacity 0.3s ease, transform 0.4s ease}
+.scroll-ribbon::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:26px;height:26px;background:radial-gradient(circle, #f6d67b 0%, #b79b63 100%);border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.3)}
 
-/* Seal logo image styling optimized for clarity */
-.wax-seal img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1);opacity:1}
+/* Opening state transformations */
+.scroll-wrapper.opening .scroll-ribbon{opacity:0;transform:translateY(-50%) scale(1.3)}
+.scroll-wrapper.opening .scroll-body{height:440px;transform:translateY(-80px)}
 
-.env-instruction{color:#e2d9c5;font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:32px;animation:pulse 2s infinite;text-shadow:0 1px 2px rgba(0,0,0,0.5)}
+.env-instruction{color:#e2d9c5;font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:36px;animation:pulse 2s infinite;text-shadow:0 1px 2px rgba(0,0,0,0.5)}
 
 @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
+
+/* Yellow Petals Particle FX Styles */
+.petal{position:absolute;width:12px;height:16px;background:radial-gradient(circle at 30% 30%, #fff2b2 0%, var(--gold) 70%, #9a781d 100%);border-radius:50% 0 50% 50%;opacity:0;pointer-events:none;z-index:1000;box-shadow:0 2px 4px rgba(0,0,0,0.15)}
+
+@keyframes burstPetals {
+  0% { transform: translate(0, 0) rotate(0deg) scale(0.4); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1); opacity: 0; }
+}
 
 /* Main Scroll Content Container */
 #invitation-app{opacity:0;transform:translateY(30px);transition:opacity 1s ease 0.4s, transform 1s ease 0.4s;pointer-events:none;max-width:800px;margin:auto;padding:20px 16px 60px}
@@ -61,23 +70,20 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 <!-- BACKGROUND AUDIO -->
 <audio id="bgAudio" src="HENRY - It's You (Violin Version).mp3" loop preload="auto"></audio>
 
-<!-- ENVELOPE INTRO SCREEN -->
+<!-- SCROLL INTRO SCREEN -->
 <div id="envelope-screen">
   <div class="env-title">You are invited!</div>
   
-  <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
-    <div class="envelope-body">
-      <div class="flap-left"></div>
-      <div class="flap-right"></div>
-      <div class="flap-bottom"></div>
-      <div class="flap-top"></div>
+  <div class="scroll-wrapper" id="scrollWrapper" onclick="openScroll()">
+    <div class="scroll-body">
+      <div class="scroll-pattern"></div>
+      <div class="scroll-rod-top"></div>
+      <div class="scroll-rod-bottom"></div>
     </div>
-    <div class="wax-seal">
-      <img src="F&A.jpg" alt="F&A Logo">
-    </div>
+    <div class="scroll-ribbon"></div>
   </div>
 
-  <div class="env-instruction">CLICK THE SEAL TO OPEN</div>
+  <div class="env-instruction">CLICK THE SCROLL TO UNROLL</div>
 </div>
 
 <!-- MAIN INVITATION CONTENT CONTAINING PAGE IMAGES -->
@@ -101,8 +107,8 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 </div>
 
 <script>
-function openEnvelope() {
-  const wrapper = document.getElementById("envelopeWrapper");
+function openScroll() {
+  const wrapper = document.getElementById("scrollWrapper");
   const screen = document.getElementById("envelope-screen");
   const app = document.getElementById("invitation-app");
   
@@ -112,14 +118,17 @@ function openEnvelope() {
     console.log("Audio playback prevented or failed:", error);
   });
 
-  // Trigger flap opening animation
+  // Trigger unrolling animation
   wrapper.classList.add("opening");
 
-  // Fade out screen overlay and fade in the invitation scroll after flap starts opening
+  // Trigger burst of yellow petals matching theme colors
+  createPetalBurst();
+
+  // Fade out screen overlay and fade in the invitation content after unrolling starts
   setTimeout(() => {
     screen.classList.add("fade-out");
     app.classList.add("visible");
-  }, 400);
+  }, 600);
   
   // Completely remove overlay element from layout after transitions finish
   setTimeout(() => {
@@ -127,32 +136,66 @@ function openEnvelope() {
   }, 1300);
 }
 
+function createPetalBurst() {
+  const screen = document.getElementById("envelope-screen");
+  const numPetals = 35; // Number of petals in the burst
+  
+  for (let i = 0; i < numPetals; i++) {
+    const petal = document.createElement("div");
+    petal.classList.add("petal");
+    
+    // Start particles from center
+    const startX = window.innerWidth / 2;
+    const startY = window.innerHeight / 2;
+    petal.style.left = startX + 'px';
+    petal.style.top = startY + 'px';
+    
+    // Randomize explosion trajectory angles and distances
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 100 + Math.random() * 250;
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance - 50; // slight upward lift
+    const rotation = Math.random() * 720 - 360;
+    
+    petal.style.setProperty('--dx', `${dx}px`);
+    petal.style.setProperty('--dy', `${dy}px`);
+    petal.style.setProperty('--rot', `${rotation}deg`);
+    
+    // Randomize animation duration for organic look
+    const duration = 0.8 + Math.random() * 0.6;
+    petal.style.animation = `burstPetals ${duration}s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
+    
+    screen.appendChild(petal);
+    
+    // Clean up DOM after animation completes
+    setTimeout(() => {
+      petal.remove();
+    }, duration * 1000);
+  }
+}
+
 function goBackToPortal(event) {
   event.preventDefault();
   
   // Check if we can navigate back in browser history
   if (window.history.length > 1) {
-    // Set a flag in session storage so the destination page knows to scroll to bottom upon return
     sessionStorage.setItem('scrollToBottom', 'true');
     window.history.back();
   } else {
-    // Fallback if opened directly in a fresh tab
     window.location.href = "https://aya-bloom.my.canva.site/fox-anj/page-2#bottom";
   }
 }
 
-// Automatically scroll to the bottom with a delay/loop check if returning via history back
+// Automatically scroll to bottom if returning via history back
 window.addEventListener('pageshow', function() {
   if (sessionStorage.getItem('scrollToBottom') === 'true') {
     sessionStorage.removeItem('scrollToBottom');
     
-    // Use a small loop/timeout delay to ensure page images have loaded and document height is expanded
     let attempts = 0;
     const checkHeightAndScroll = setInterval(() => {
       attempts++;
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       
-      // Stop checking after ~1 second or if max height is reached
       if (attempts > 10) {
         clearInterval(checkHeightAndScroll);
       }

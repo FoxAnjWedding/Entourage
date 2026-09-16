@@ -39,7 +39,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  gap:-18px; /* Brought very close together with minimal/no gap */
+  gap:-18px;
   transition:transform 0.4s ease;
   filter:drop-shadow(0 15px 25px rgba(0,0,0,0.12));
 }
@@ -75,14 +75,14 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   opacity: 0;
 }
 
-/* F&A Wax Seal centered between scrolls, sized to match combined height */
+/* F&A Wax Seal sized to match the combined height of both scrolls */
 .scroll-logo{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
-  width:92px;  /* Sized to match combined height of top and bottom scroll */
-  height:92px;
+  width:136px;  /* Match combined height */
+  height:136px; /* Match combined height */
   border-radius:50%;
   overflow:hidden;
   z-index:3;
@@ -189,7 +189,6 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 
 <!-- MAIN INVITATION CONTENT CONTAINING PAGE IMAGES -->
 <div id="invitation-app">
-  <!-- Top Navigation Back Button -->
   <div class="top-nav">
     <a href="https://aya-bloom.my.canva.site/fox-anj/page-2" class="btn-back" onclick="goBackToPortal(event)">← Back to Portal</a>
   </div>
@@ -201,7 +200,6 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
     <img src="page_4.jpg" alt="Wedding Details - Page 4" class="invitation-page">
   </div>
 
-  <!-- Bottom Navigation Back Button -->
   <div class="bottom-nav">
     <a href="https://aya-bloom.my.canva.site/fox-anj/page-2" class="btn-back" onclick="goBackToPortal(event)">← Back to Portal</a>
   </div>

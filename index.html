@@ -17,6 +17,10 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
 
+/* Petal Canvases: Background and Foreground layers */
+#petalCanvasBack { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+#petalCanvasFront { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
+
 /* Intro Screen Overlay - Clean White Background */
 #envelope-screen{
   position:fixed;top:0;left:0;width:100vw;height:100vh;
@@ -42,6 +46,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   gap:-18px;
   transition:transform 0.4s ease;
   filter:drop-shadow(0 15px 25px rgba(0,0,0,0.12));
+  z-index: 4;
 }
 .scroll-wrapper:hover{transform:translateY(-4px)}
 
@@ -67,11 +72,11 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 
 /* Unscrolling Animation States */
 .scroll-wrapper.opening .scroll-top {
-  transform: translateY(-90px);
+  transform: translateY(-180px);
   opacity: 0;
 }
 .scroll-wrapper.opening .scroll-bottom {
-  transform: translateY(90px);
+  transform: translateY(180px);
   opacity: 0;
 }
 
@@ -81,8 +86,8 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
-  width:89px;  /* Match combined height */
-  height:89px; /* Match combined height */
+  width:83px;  
+  height:83px; 
   border-radius:50%;
   overflow:hidden;
   z-index:3;
@@ -110,7 +115,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   z-index: 1000;
   overflow: hidden;
 }
-.petal {
+.petal-burst {
   position: absolute;
   background: var(--gold);
   border-radius: 150% 0 150% 0;
@@ -129,7 +134,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   }
 }
 
-.env-instruction{color:#7d8a70;font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:36px;animation:pulse 2s infinite;}
+.env-instruction{color:#7d8a70;font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:36px;animation:pulse 2s infinite; z-index:4; position:relative;}
 
 @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
 
@@ -144,6 +149,8 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   max-width:800px;
   margin:auto;
   padding:0 16px;
+  position: relative;
+  z-index: 2;
 }
 #invitation-app.visible{
   opacity:1;
@@ -165,6 +172,10 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 </style>
 </head>
 <body>
+
+<!-- CONTINUOUS FALLING PETAL CANVASES -->
+<canvas id="petalCanvasBack"></canvas>
+<canvas id="petalCanvasFront"></canvas>
 
 <!-- BACKGROUND AUDIO -->
 <audio id="bgAudio" src="HENRY - It's You (Violin Version).mp3" loop preload="auto"></audio>
@@ -206,6 +217,130 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 </div>
 
 <script>
+// Gyroscope handling for mobile devices
+let gyroX = 0;
+function handleOrientation(e) {
+  if (e.gamma !== null) {
+    gyroX = e.gamma / 15;
+  }
+}
+
+function initGyroSilently() {
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission().then(response => {
+      if (response === 'granted') {
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    }).catch(() => {});
+  } else {
+    window.addEventListener('deviceorientation', handleOrientation);
+  }
+}
+window.addEventListener('click', initGyroSilently, { once: true });
+window.addEventListener('touchstart', initGyroSilently, { once: true });
+
+// Continuous Falling Petal Canvases Setup
+const canvasBack = document.getElementById('petalCanvasBack');
+const ctxBack = canvasBack.getContext('2d');
+const canvasFront = document.getElementById('petalCanvasFront');
+const ctxFront = canvasFront.getContext('2d');
+
+function resizeCanvases() {
+  canvasBack.width = window.innerWidth;
+  canvasBack.height = window.innerHeight;
+  canvasFront.width = window.innerWidth;
+  canvasFront.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvases);
+resizeCanvases();
+
+const palette = ['#c8842b', '#df9635', '#f2ae43', '#fbc550', '#ffde6b'];
+
+function createPetals(count, isFront = false) {
+  const arr = [];
+  for (let i = 0; i < count; i++) {
+    arr.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight - window.innerHeight,
+      scale: (Math.random() * 0.4 + (isFront ? 0.7 : 0.45)),
+      d: Math.random() * count,
+      color: palette[Math.floor(Math.random() * palette.length)],
+      tilt: Math.random() * Math.PI * 2,
+      tiltSpeed: (Math.random() * 0.018) - 0.009,
+      blur: isFront ? (Math.random() * 4 + 2) : (Math.random() * 1.5 + 0.5)
+    });
+  }
+  return arr;
+}
+
+const backPetals = createPetals(12, false);
+const frontPetals = createPetals(7, true);
+
+function drawCurvedPetal(ctx, p) {
+  ctx.save();
+  ctx.translate(p.x, p.y);
+  ctx.rotate(p.tilt);
+  ctx.scale(p.scale, p.scale);
+
+  if (p.blur > 0.5) {
+    ctx.shadowBlur = p.blur;
+    ctx.shadowColor = p.color;
+  }
+
+  ctx.fillStyle = p.color;
+  ctx.beginPath();
+  ctx.moveTo(-16, 0);
+  ctx.bezierCurveTo(-10, -8, 5, -10, 16, -2);
+  ctx.bezierCurveTo(8, 2, -2, 6, -16, 0);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function updateAndDrawPetals(ctx, petals) {
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  petals.forEach(p => drawCurvedPetal(ctx, p));
+}
+
+let angle = 0;
+function animatePetals() {
+  angle += 0.007;
+
+  backPetals.forEach((p) => {
+    p.tilt += p.tiltSpeed;
+    p.y += (Math.cos(angle + p.d) + 1.5) * 0.35; 
+    p.x += (Math.sin(angle) * 0.35) + gyroX;
+
+    if (p.y > window.innerHeight + 30) {
+      p.x = Math.random() * window.innerWidth;
+      p.y = -30;
+    }
+    if (p.x > window.innerWidth + 30) p.x = -30;
+    if (p.x < -30) p.x = window.innerWidth + 30;
+  });
+
+  frontPetals.forEach((p) => {
+    p.tilt += p.tiltSpeed;
+    p.y += (Math.cos(angle + p.d) + 1.7) * 0.45; 
+    p.x += (Math.sin(angle * 1.1) * 0.55) + (gyroX * 1.25);
+
+    if (p.y > window.innerHeight + 30) {
+      p.x = Math.random() * window.innerWidth;
+      p.y = -30;
+    }
+    if (p.x > window.innerWidth + 30) p.x = -30;
+    if (p.x < -30) p.x = window.innerWidth + 30;
+  });
+
+  updateAndDrawPetals(ctxBack, backPetals);
+  updateAndDrawPetals(ctxFront, frontPetals);
+
+  requestAnimationFrame(animatePetals);
+}
+animatePetals();
+
+// Opening Scroll Petal Burst
 function createPetalBurst() {
   const container = document.getElementById('petal-container');
   const numPetals = 25;
@@ -215,7 +350,7 @@ function createPetalBurst() {
 
   for (let i = 0; i < numPetals; i++) {
     const petal = document.createElement('div');
-    petal.classList.add('petal');
+    petal.classList.add('petal-burst');
     
     const size = Math.random() * 12 + 8;
     petal.style.width = size + 'px';

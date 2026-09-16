@@ -16,29 +16,29 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
 .env-title{color:#fff;font-size:28px;font-style:italic;letter-spacing:1px;margin-bottom:35px;font-weight:normal;text-shadow:0 2px 4px rgba(0,0,0,0.5)}
 
 /* Horizontal Scroll Container */
-.scroll-container{position:relative;width:520px;height:160px;cursor:pointer;filter:drop-shadow(0 20px 30px rgba(0,0,0,0.6));display:flex;align-items:center;justify-content:center}
+.scroll-container{position:relative;width:160px;height:320px;cursor:pointer;filter:drop-shadow(0 20px 30px rgba(0,0,0,0.6));display:flex;align-items:center;justify-content:center}
 
-/* Central Roll body that expands */
-.scroll-sheet{position:absolute;width:40px;height:130px;background:var(--paper);background-image:radial-gradient(circle at 50% 50%, #fffdfa 0%, #f2ede2 100%);border-top:2px solid var(--line);border-bottom:2px solid var(--line);box-shadow:inset 0 0 15px rgba(183,155,99,0.15);transition:width 1s cubic-bezier(0.4,0,0.2,1);z-index:2;display:flex;align-items:center;justify-content:center;overflow:hidden}
+/* Central Roll body that expands horizontally */
+.scroll-sheet{position:absolute;width:130px;height:40px;background:var(--paper);background-image:radial-gradient(circle at 50% 50%, #fffdfa 0%, #f2ede2 100%);border-left:2px solid var(--line);border-right:2px solid var(--line);box-shadow:inset 0 0 15px rgba(183,155,99,0.15);transition:height 1s cubic-bezier(0.4,0,0.2,1);z-index:2;display:flex;align-items:center;justify-content:center;overflow:hidden}
 
-.scroll-container.opening .scroll-sheet{width:460px}
+.scroll-container.opening .scroll-sheet{height:280px}
 
 /* Ornate Scroll Pattern Overlay */
 .scroll-pattern{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5c5 5 10 2 15 7s2 10 7 15-2 10 3 15-7 10-7 15-2 5-7 5-5-2-10-7-2-10-7-15 2-10-3-15 7-10 7-15 2-5 7-5z' fill='%23b79b63' fill-opacity='0.08'/%3E%3C/svg%3E");opacity:0.8;width:100%;height:100%}
 
-/* Left & Right Roll Cylinders with Gold Knobs */
-.scroll-roller{position:absolute;width:34px;height:150px;background:linear-gradient(90deg, #8c6d12 0%, #d4af37 40%, #f6d67b 70%, #8c6d12 100%);border-radius:6px;z-index:3;box-shadow:0 5px 12px rgba(0,0,0,0.4);display:flex;flex-direction:column;justify-content:space-between;align-items:center;transition:transform 1s cubic-bezier(0.4,0,0.2,1)}
+/* Top & Bottom Roll Cylinders with Gold Knobs */
+.scroll-roller{position:absolute;width:150px;height:34px;background:linear-gradient(180deg, #8c6d12 0%, #d4af37 40%, #f6d67b 70%, #8c6d12 100%);border-radius:6px;z-index:3;display:flex;justify-content:space-between;align-items:center;transition:transform 1s cubic-bezier(0.4,0,0.2,1);box-shadow:0 5px 12px rgba(0,0,0,0.4)}
 
-.roller-left{left:20px;transform:translateX(200px)}
-.roller-right{right:20px;transform:translateX(-200px)}
+.roller-top{top:20px;transform:translateY(120px)}
+.roller-bottom{bottom:20px;transform:translateY(-120px)}
 
-.scroll-container.opening .roller-left{transform:translateX(0)}
-.scroll-container.opening .roller-right{transform:translateX(0)}
+.scroll-container.opening .roller-top{transform:translateY(0)}
+.scroll-container.opening .roller-bottom{transform:translateY(0)}
 
-/* Golden Ball Knobs at top and bottom of rollers */
-.knob{width:40px;height:18px;background:radial-gradient(circle at 35% 35%, #f6d67b 0%, #d4af37 60%, #6d520c 100%);border-radius:50%;border:1px solid #7c5d0e;box-shadow:0 2px 4px rgba(0,0,0,0.4)}
-.knob-top{margin-top:-6px}
-.knob-bottom{margin-bottom:-6px}
+/* Golden Ball Knobs at left and right of rollers */
+.knob{width:18px;height:40px;background:radial-gradient(circle at 35% 35%, #f6d67b 0%, #d4af37 60%, #6d520c 100%);border-radius:50%;border:1px solid #7c5d0e;box-shadow:0 2px 4px rgba(0,0,0,0.4)}
+.knob-left{margin-left:-6px}
+.knob-right{margin-right:-6px}
 
 /* Wax Seal in Center */
 .wax-seal{position:absolute;width:72px;height:72px;background:radial-gradient(circle at 35% 35%, #f6d67b 0%, #d4af37 65%, #8c6d12 100%);border-radius:50%;box-shadow:0 5px 15px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.7), inset 0 -3px 4px rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;z-index:5;border:2px solid #b39023;transition:transform 0.4s ease, opacity 0.4s ease;overflow:hidden}
@@ -83,10 +83,10 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   <div class="env-title">You are invited!</div>
   
   <div class="scroll-container" id="scrollContainer" onclick="openScroll()">
-    <!-- Left Roller & Knob -->
-    <div class="scroll-roller roller-left">
-      <div class="knob knob-top"></div>
-      <div class="knob knob-bottom"></div>
+    <!-- Top Roller & Knob -->
+    <div class="scroll-roller roller-top">
+      <div class="knob knob-left"></div>
+      <div class="knobs knob-right"></div>
     </div>
 
     <!-- Central Unrolling Paper Sheet -->
@@ -94,10 +94,10 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
       <div class="scroll-pattern"></div>
     </div>
 
-    <!-- Right Roller & Knob -->
-    <div class="scroll-roller roller-right">
-      <div class="knob knob-top"></div>
-      <div class="knob knob-bottom"></div>
+    <!-- Bottom Roller & Knob -->
+    <div class="scroll-roller roller-bottom">
+      <div class="knob knob-left"></div>
+      <div class="knob knob-right"></div>
     </div>
 
     <!-- Center Wax Seal -->
@@ -203,7 +203,7 @@ function goBackToPortal(event) {
 
 // Automatically scroll to the bottom if returning via history back
 window.addEventListener('pageshow', function() {
-  if (sessionStorage.getItem('scrollToBottom') === 'true') {
+  if (sessionStorage.getItem('scrollToBottom'] === 'true') {
     sessionStorage.removeItem('scrollToBottom');
     
     let attempts = 0;

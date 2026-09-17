@@ -433,26 +433,22 @@ function openEnvelope() {
   }, 1200);
 }
 
-// FIXED: Double-reload & Frame escape route to prevent page-2 scroll lock
 function goBackToPortal(event) {
   event.preventDefault();
   
-  sessionStorage.setItem('scrollToBottom', 'true');
-  const targetUrl = "https://aya-bloom.my.canva.site/fox-anj/page-2";
-  
-  try {
-    if (window.top !== window.self) {
-      window.top.location.href = targetUrl;
-    } else {
-      window.location.href = targetUrl;
-    }
-  } catch (e) {
-    window.location.href = targetUrl;
+  // If opened in a new tab from Canva on a browser, window.history.length is typically <= 1
+  // In that scenario, closing the tab returns the user directly to the underlying Canva page.
+  // On mobile/FB messenger where it replaces/reloads in the same view, history length is > 1.
+  if (window.history.length <= 1) {
+    window.close();
+    // Fallback if browser security blocks window.close() on unscripted tabs:
+    setTimeout(() => {
+      window.location.href = "https://aya-bloom.my.canva.site/fox-anj/page-2";
+    }, 150);
+  } else {
+    sessionStorage.setItem('scrollToBottom', 'true');
+    window.history.back();
   }
-
-  setTimeout(function() {
-    window.location.reload(true);
-  }, 300);
 }
 
 window.addEventListener('pageshow', function() {
@@ -464,10 +460,10 @@ window.addEventListener('pageshow', function() {
       attempts++;
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       
-      if (attempts > 15) {
+      if (attempts > 10) {
         clearInterval(checkHeightAndScroll);
       }
-    }, 80);
+    }, 100);
   }
 });
 </script>

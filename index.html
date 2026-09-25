@@ -47,19 +47,18 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   transition:transform 0.4s ease;
   filter:drop-shadow(0 15px 25px rgba(0,0,0,0.12));
   z-index: 4;
-  /* Idle twitch animation before click */
-  animation: scrollTwitch 3.5s ease-in-out infinite;
+  /* Idle twitch animation duration set to 1.5s */
+  animation: scrollTwitch 1.5s ease-in-out infinite;
 }
 .scroll-wrapper:hover{transform:translateY(-4px)}
 
-/* Idle Twitch Keyframes (Subtle rotation and rocking motion) */
+/* Idle Twitch Keyframes (Synced timing) */
 @keyframes scrollTwitch {
   0% { transform: rotate(0deg) scale(1); }
-  2% { transform: rotate(-1.5deg) scale(1.01); }
-  4% { transform: rotate(1.5deg) scale(0.99); }
-  6% { transform: rotate(-1deg) scale(1.01); }
-  8% { transform: rotate(1deg) scale(1); }
-  10% { transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(-1.5deg) scale(1.01); }
+  40% { transform: rotate(1.5deg) scale(0.99); }
+  60% { transform: rotate(-1deg) scale(1.01); }
+  80% { transform: rotate(1deg) scale(1); }
   100% { transform: rotate(0deg) scale(1); }
 }
 
@@ -113,16 +112,16 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   border:2px solid var(--gold);
   background: #222;
   transition:transform 0.4s ease, opacity 0.4s ease;
-  /* Extra independent micro-twitch for the logo to make it feel organic */
-  animation: logoTwitch 3.5s ease-in-out infinite;
+  /* Duration matched to 1.5s and keyframe timeline completely synchronized with scroll-wrapper */
+  animation: logoTwitch 1.5s ease-in-out infinite;
 }
 
 @keyframes logoTwitch {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  3% { transform: translate(-50%, -50%) rotate(3deg) scale(1.05); }
-  6% { transform: translate(-50%, -50%) rotate(-3deg) scale(0.95); }
-  9% { transform: translate(-50%, -50%) rotate(2deg) scale(1.02); }
-  12% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  20% { transform: translate(-50%, -50%) rotate(3deg) scale(1.03); }
+  40% { transform: translate(-50%, -50%) rotate(-3deg) scale(0.97); }
+  60% { transform: translate(-50%, -50%) rotate(2deg) scale(1.01); }
+  80% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
   100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
 }
 
@@ -436,12 +435,8 @@ function openEnvelope() {
 function goBackToPortal(event) {
   event.preventDefault();
   
-  // If opened in a new tab from Canva on a browser, window.history.length is typically <= 1
-  // In that scenario, closing the tab returns the user directly to the underlying Canva page.
-  // On mobile/FB messenger where it replaces/reloads in the same view, history length is > 1.
   if (window.history.length <= 1) {
     window.close();
-    // Fallback if browser security blocks window.close() on unscripted tabs:
     setTimeout(() => {
       window.location.href = "https://aya-bloom.my.canva.site/fox-anj/page-2";
     }, 150);

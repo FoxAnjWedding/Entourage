@@ -47,19 +47,19 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   transition:transform 0.4s ease;
   filter:drop-shadow(0 15px 25px rgba(0,0,0,0.12));
   z-index: 4;
-  /* Idle twitch animation duration set to 1.5s */
-  animation: scrollTwitch 1.5s ease-in-out infinite;
+  /* 1.8s total loop cycle: 0.6s fast twitch, 1.2s pause */
+  animation: scrollTwitch 1.8s ease-in-out infinite;
 }
 .scroll-wrapper:hover{transform:translateY(-4px)}
 
-/* Idle Twitch Keyframes (Synced timing) */
+/* Fast Twitch Keyframes with a pause period */
 @keyframes scrollTwitch {
-  0% { transform: rotate(0deg) scale(1); }
-  20% { transform: rotate(-1.5deg) scale(1.01); }
-  40% { transform: rotate(1.5deg) scale(0.99); }
-  60% { transform: rotate(-1deg) scale(1.01); }
-  80% { transform: rotate(1deg) scale(1); }
-  100% { transform: rotate(0deg) scale(1); }
+  0%   { transform: rotate(0deg) scale(1); }
+  10%  { transform: rotate(-1.5deg) scale(1.01); }
+  20%  { transform: rotate(1.5deg) scale(0.99); }
+  30%  { transform: rotate(-1deg) scale(1.01); }
+  40%  { transform: rotate(0deg) scale(1); }
+  100% { transform: rotate(0deg) scale(1); } /* Pause interval until loop repeats */
 }
 
 /* Stop twitching once opening class is applied */
@@ -112,16 +112,16 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Time
   border:2px solid var(--gold);
   background: #222;
   transition:transform 0.4s ease, opacity 0.4s ease;
-  /* Duration matched to 1.5s and keyframe timeline completely synchronized with scroll-wrapper */
-  animation: logoTwitch 1.5s ease-in-out infinite;
+  /* Matched 1.8s loop cycle with synchronized keyframe timeline */
+  animation: logoTwitch 1.8s ease-in-out infinite;
 }
 
 @keyframes logoTwitch {
-  0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
-  20% { transform: translate(-50%, -50%) rotate(3deg) scale(1.03); }
-  40% { transform: translate(-50%, -50%) rotate(-3deg) scale(0.97); }
-  60% { transform: translate(-50%, -50%) rotate(2deg) scale(1.01); }
-  80% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  0%   { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  10%  { transform: translate(-50%, -50%) rotate(3deg) scale(1.03); }
+  20%  { transform: translate(-50%, -50%) rotate(-3deg) scale(0.97); }
+  30%  { transform: translate(-50%, -50%) rotate(2deg) scale(1.01); }
+  40%  { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
   100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
 }
 
